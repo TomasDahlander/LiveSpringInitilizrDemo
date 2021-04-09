@@ -2,9 +2,7 @@ package com.example.demo.controllers;
 
 import models.Friend;
 import models.Response;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import repos.FriendDAO;
 
 import java.util.ArrayList;
@@ -56,18 +54,18 @@ public class FriendController {
 
     @RequestMapping("/friend/{id}/delete")
     public Response deleteFriend(@PathVariable int id){
-        int friendIdToRemove = -1;
+        int friendIndexToRemove = -1;
 
         for(int i = 0; i < friends.size(); i++){
             if(friends.get(i).getId() == id){
-                friendIdToRemove = i;
+                friendIndexToRemove = i;
             }
         }
 
-        if(friendIdToRemove == -1){
+        if(friendIndexToRemove == -1){
             return new Response("Hittades ej i databasen...",false);
         }
-        Friend removed = friends.remove(friendIdToRemove);
+        Friend removed = friends.remove(friendIndexToRemove);
         return new Response("Tagig bort kompis: " + removed.toString(),true);
     }
 
@@ -91,12 +89,36 @@ public class FriendController {
     @RequestMapping("/friendsinhtml")
     public String getAllFriendsInHtml(){
         String text = "<html><head></head><body><h1>Vänlistan</h1><ul>";
-        List<String> list = new ArrayList<>();
         for(Friend f : friends){
             text += "<li>" + f.getName() + " - " + f.getPhoneNr() + "</li>";
         }
         text += "</ul></body><html>";
         return text;
+    }
+
+    @PostMapping("/friend/add")
+    public String addFriendWithPost(@RequestBody Friend friend){
+        friends.add(friend);
+        return "Added friend: " + friend.toString();
+    }
+
+    @PostMapping("/friend/upsert")
+    public Response upsertFriend(@RequestBody Friend friend){
+        int friendIndexToUpdate = -1;
+
+        for(int i = 0; i < friends.size(); i++){
+            if(friends.get(i).getId() == friend.getId()){
+                friendIndexToUpdate = i;
+            }
+        }
+        if(friendIndexToUpdate == -1){
+            friends.add(friend);
+            return new Response("New friend added",true);
+        }
+        else{
+            friends.set(friendIndexToUpdate,friend);
+            return new Response("Old friend updated",true);
+        }
     }
 
 }

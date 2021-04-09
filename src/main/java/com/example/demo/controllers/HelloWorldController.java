@@ -91,7 +91,7 @@ public class HelloWorldController {
 
     @RequestMapping("/counter")
     public String counter(@RequestParam (defaultValue = "Orvar Karlsson") String name){
-        return "<html><body><h1>Counter</h1>" +
+        return "<html><head></head><body><h1>Counter</h1>" +
                 "<h2>Hej " + name + "</h2>" +
                 "<p id='count'>0</p>" +
                 "<button id='btn' onclick='myFunction()'>Count</button>" +
