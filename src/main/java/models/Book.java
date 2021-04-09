@@ -1,0 +1,45 @@
+package models;
+
+/**
+ * Created by Tomas Dahlander <br>
+ * Date: 2021-04-08 <br>
+ * Time: 14:10 <br>
+ * Project: LiveSpringInitilizrDemo <br>
+ */
+public class Book {
+    protected int id;
+    protected String title;
+    protected String author;
+
+    public Book(){}
+
+    public Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+}
