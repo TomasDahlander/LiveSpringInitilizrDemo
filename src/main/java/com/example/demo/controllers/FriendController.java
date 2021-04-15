@@ -78,6 +78,15 @@ public class FriendController {
         return new Response("Added: " + friend.toString(),true);
     }
 
+    @PostMapping("/friends/add")
+    public Response addFriendsByPost(@RequestBody Friend f){
+        f.setId(getNextId());
+        friends.add(f);
+        Response r = new Response(
+            "New friend " + f.getName() + " added: " + friends.size() + " friends currently in list.",true);
+        return r;
+    }
+
     public int getNextId(){
         int nr = -1;
         for(Friend f : friends){
